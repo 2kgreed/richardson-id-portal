@@ -405,6 +405,122 @@ p.lead {
   pointer-events: none;
 }
 
+/* Department Filters & Grouping */
+.dept-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.dept-pills-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dept-pill-btn {
+  background: #ffffff;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--slate-700);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dept-pill-btn:hover {
+  background: var(--slate-100);
+  border-color: var(--slate-400);
+  color: var(--richardson-navy);
+}
+
+.dept-pill-btn.active {
+  background: var(--richardson-navy);
+  border-color: var(--richardson-navy);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 27, 113, 0.25);
+}
+
+.dept-pill-count {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+}
+
+.dept-pill-btn.active .dept-pill-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.dept-group-header-row td {
+  background: #f8fafc !important;
+  padding: 10px 16px !important;
+  border-top: 1.5px solid var(--slate-300) !important;
+  border-bottom: 1.5px solid var(--slate-300) !important;
+}
+
+.dept-group-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dept-group-title {
+  font-weight: 800;
+  font-size: 0.86rem;
+  color: var(--richardson-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dept-group-count {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--richardson-red);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+}
+
+/* Skeleton Loading Animation */
+.skeleton-row td {
+  padding: 16px;
+}
+.skeleton-block {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.skeleton-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Table Roster */
 .table-container {
   background: #ffffff;

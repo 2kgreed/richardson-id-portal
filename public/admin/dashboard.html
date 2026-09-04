@@ -81,10 +81,17 @@
     <div class="toolbar">
       <div class="search-input-wrap">
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="search" id="searchBox" placeholder="Search by name, ID number, or department…" />
+        <input type="search" id="searchBox" placeholder="Search by name, ID number, role, or department…" />
       </div>
       <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <span id="resultsCount" style="font-size: 0.82rem; color: var(--slate-500);"></span>
+        <!-- Department / Team Filter Dropdown -->
+        <select id="deptSelect" style="padding: 9px 14px; border: 1px solid var(--slate-300); border-radius: var(--radius-sm); font-size: 0.85rem; background: #ffffff; color: var(--slate-800); font-weight: 600; cursor: pointer;">
+          <option value="">All Departments (All Staff)</option>
+        </select>
+        <button class="btn btn-quiet" id="toggleGroupingBtn" type="button" title="Toggle grouped view by department">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span id="groupingBtnLabel">Group by Department</span>
+        </button>
         <button class="btn btn-quiet" id="exportCsvBtn" type="button">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Export CSV
@@ -94,6 +101,14 @@
           Issue New ID Card
         </a>
       </div>
+    </div>
+
+    <!-- Quick Department Pills Filter Bar -->
+    <div class="dept-filter-bar">
+      <div class="dept-pills-wrap" id="deptPillsContainer">
+        <!-- Injected dynamically from roster data -->
+      </div>
+      <span id="resultsCount" style="font-size: 0.82rem; color: var(--slate-600); font-weight: 700;"></span>
     </div>
 
     <!-- Roster Table Container -->
@@ -109,10 +124,26 @@
           </tr>
         </thead>
         <tbody id="rosterBody">
-          <tr>
-            <td colspan="5" style="text-align: center; padding: 36px; color: var(--slate-400);">
-              Loading employee directory…
-            </td>
+          <tr class="skeleton-row">
+            <td><div style="display: flex; align-items: center; gap: 12px;"><div class="skeleton-avatar"></div><div><div class="skeleton-block" style="width: 140px; margin-bottom: 6px;"></div><div class="skeleton-block" style="width: 90px;"></div></div></div></td>
+            <td><div class="skeleton-block" style="width: 110px;"></div></td>
+            <td><div class="skeleton-block" style="width: 75px;"></div></td>
+            <td><div class="skeleton-block" style="width: 60px;"></div></td>
+            <td><div class="skeleton-block" style="width: 120px; margin-left: auto;"></div></td>
+          </tr>
+          <tr class="skeleton-row">
+            <td><div style="display: flex; align-items: center; gap: 12px;"><div class="skeleton-avatar"></div><div><div class="skeleton-block" style="width: 130px; margin-bottom: 6px;"></div><div class="skeleton-block" style="width: 80px;"></div></div></div></td>
+            <td><div class="skeleton-block" style="width: 95px;"></div></td>
+            <td><div class="skeleton-block" style="width: 70px;"></div></td>
+            <td><div class="skeleton-block" style="width: 60px;"></div></td>
+            <td><div class="skeleton-block" style="width: 120px; margin-left: auto;"></div></td>
+          </tr>
+          <tr class="skeleton-row">
+            <td><div style="display: flex; align-items: center; gap: 12px;"><div class="skeleton-avatar"></div><div><div class="skeleton-block" style="width: 150px; margin-bottom: 6px;"></div><div class="skeleton-block" style="width: 100px;"></div></div></div></td>
+            <td><div class="skeleton-block" style="width: 105px;"></div></td>
+            <td><div class="skeleton-block" style="width: 80px;"></div></td>
+            <td><div class="skeleton-block" style="width: 60px;"></div></td>
+            <td><div class="skeleton-block" style="width: 120px; margin-left: auto;"></div></td>
           </tr>
         </tbody>
       </table>

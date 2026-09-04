@@ -34,7 +34,18 @@ if (!id) {
     if (!emp) {
       document.getElementById("empName").textContent = "Employee record not found.";
     } else {
+      const firstName = (emp.firstName || "").trim();
       const fullName = `${emp.firstName || ""} ${emp.lastName || ""}`.trim();
+
+      // Set document.title to the employee's first name so browser print/PDF export names the file after them
+      if (firstName) {
+        document.title = firstName;
+      }
+
+      window.addEventListener("beforeprint", () => {
+        if (firstName) document.title = firstName;
+      });
+
       document.getElementById("empName").textContent = `${fullName} · Official Badge`;
       document.getElementById("cardName").textContent = fullName || "—";
       document.getElementById("cardRole").textContent = emp.jobTitle || "Personnel";

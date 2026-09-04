@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Badge Preview &amp; Print — Richardson Oil and Gas</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .card-preview-shell {
+      background: var(--slate-100);
+      border: 1px dashed var(--slate-300);
+      border-radius: var(--radius-lg);
+      padding: 36px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .badge-actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .meta-url-box {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .url-text {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--primary-700);
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand-wrapper">
+      <img src="/assets/logo.svg" alt="Richardson Oil and Gas" class="brand-logo-img" />
+      <div class="brand-info">
+        <span class="brand-name">Richardson Oil &amp; Gas</span>
+        <span class="brand-tag">ID Badge Generator</span>
+      </div>
+    </div>
+    <a class="btn btn-quiet btn-sm" href="/admin/dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Return to Directory
+    </a>
+  </header>
+
+  <main class="wrap">
+    <div style="margin-bottom: 24px;">
+      <h1 id="empName">Loading Credential…</h1>
+      <p class="lead">
+        Standard CR80 identity badge preview (85.6mm × 54mm). Scannable QR code links securely to the tamper-evident digital verification portal.
+      </p>
+    </div>
+
+    <!-- Printable Card Preview -->
+    <div class="card-preview-shell">
+      <div id="printArea" class="print-card">
+        <!-- Badge Header -->
+        <div class="badge-header">
+          <div class="badge-header-left">
+            <img src="/assets/logo.svg" alt="" class="badge-logo-img" />
+            <span class="badge-org-title">RICHARDSON OIL &amp; GAS</span>
+          </div>
+          <span class="badge-sec-tag">OFFICIAL ID</span>
+        </div>
+
+        <!-- Badge Body -->
+        <div class="badge-body-content">
+          <div class="badge-photo-container">
+            <img id="facePhoto" alt="Employee Photo" />
+          </div>
+          <div class="badge-info-column">
+            <div class="badge-emp-name" id="cardName">—</div>
+            <div class="badge-emp-role" id="cardRole">—</div>
+            <div class="badge-emp-dept" id="cardDept">—</div>
+            <div>
+              <span class="badge-emp-num-badge" id="cardNumber">ID: —</span>
+            </div>
+          </div>
+          <div class="badge-qr-column">
+            <canvas id="qrCanvas" width="70" height="70"></canvas>
+            <span class="badge-qr-caption">Scan to Verify</span>
+          </div>
+        </div>
+
+        <!-- Badge Footer -->
+        <div class="badge-footer-bar">
+          <span>SECURE ISSUED CREDENTIAL</span>
+          <span class="auth">AUTH · ROG-NG</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="badge-actions-bar">
+      <button class="btn btn-primary" id="printBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        Print Official Badge
+      </button>
+      <button class="btn btn-quiet" id="downloadQrBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download QR Code (PNG)
+      </button>
+      <button class="btn btn-quiet" id="copyUrlBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy Verification URL
+      </button>
+    </div>
+
+    <!-- Verification URL Box -->
+    <div class="meta-url-box">
+      <div>
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--slate-500); text-transform: uppercase; margin-bottom: 4px;">
+          Public Verification Endpoint
+        </div>
+        <a id="checkLink" class="url-text" href="#" target="_blank" rel="noopener"></a>
+      </div>
+      <a id="openCheckLink" class="btn btn-quiet btn-sm" href="#" target="_blank" rel="noopener">
+        Open
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      </a>
+    </div>
+  </main>
+
+  <div id="toast" class="toast-msg"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script type="module" src="/admin/card.js"></script>
+</body>
+</html>

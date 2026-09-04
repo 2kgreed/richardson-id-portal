@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Identity Credential Verification — Richardson Oil and Gas</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="check-body">
+  <div class="check-card">
+    <!-- Header -->
+    <div class="check-header">
+      <div class="check-logo-group">
+        <img src="/assets/logo.svg" alt="Richardson Oil and Gas" />
+        <span class="check-org-name">Richardson Oil &amp; Gas</span>
+      </div>
+      <span style="font-size: 0.72rem; color: #94a3b8; font-family: var(--font-mono); font-weight: 600;">
+        VERIFY-SYS
+      </span>
+    </div>
+
+    <!-- Status Banner -->
+    <div class="check-status-badge missing" id="statusBar">
+      <div class="status-pulse-dot"></div>
+      <span id="statusText">Verifying digital certificate…</span>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="check-content-area" id="details" hidden>
+      <!-- Personnel Photo -->
+      <div class="check-photo-wrap" id="photoWrap">
+        <img id="photo" class="check-photo" alt="Employee Photo" />
+      </div>
+
+      <!-- Personnel Name & Role -->
+      <div class="check-person-heading">
+        <h2 class="check-person-name" id="name">—</h2>
+        <p class="check-person-title" id="title">—</p>
+      </div>
+
+      <!-- Verification Grid -->
+      <div class="check-data-table">
+        <div class="check-field-group">
+          <span class="check-label">Department</span>
+          <span class="check-val" id="department">—</span>
+        </div>
+        <div class="check-field-group">
+          <span class="check-label">Employee ID</span>
+          <span class="check-val mono" id="employeeNumber">—</span>
+        </div>
+        <div class="check-field-group full-width">
+          <span class="check-label">Verification Timestamp</span>
+          <span class="check-val mono" id="verifyTime" style="font-size: 0.8rem; color: #94a3b8;">—</span>
+        </div>
+      </div>
+
+      <div class="check-footer-info">
+        🔒 Real-time cryptographic confirmation from Richardson Oil and Gas credential directory.
+      </div>
+    </div>
+
+    <!-- Fallback / Error Message Container -->
+    <div id="errorState" style="padding: 36px 24px; text-align: center; display: none;">
+      <p id="errorMessage" style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 12px;"></p>
+      <p style="font-size: 0.78rem; color: #64748b; margin: 0;">If you believe this is an error, contact corporate security.</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px; font-size: 0.75rem; color: #475569; text-align: center;">
+    &copy; Richardson Oil and Gas PLC · Corporate Security &amp; Asset Protection
+  </div>
+
+  <script type="module" src="/check/check.js"></script>
+</body>
+</html>

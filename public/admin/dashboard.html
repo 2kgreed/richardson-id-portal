@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Personnel ID Management — Richardson Oil and Gas</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="brand-wrapper">
+      <img src="/assets/logo.svg" alt="Richardson Oil and Gas" class="brand-logo-img" />
+      <div class="brand-info">
+        <span class="brand-name">Richardson Oil &amp; Gas</span>
+        <span class="brand-tag">Corporate ID Portal</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span id="adminEmailBadge" style="font-size: 0.8rem; color: var(--slate-500); display: none;"></span>
+      <button class="btn btn-quiet btn-sm" id="logoutBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Sign out
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <span class="metric-label">Total ID Cards</span>
+        <span class="metric-value" id="metricTotal">0</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Active Credentials</span>
+        <span class="metric-value active" id="metricActive">0</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Revoked Credentials</span>
+        <span class="metric-value revoked" id="metricRevoked">0</span>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-input-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="search" id="searchBox" placeholder="Search by name, ID number, or department…" />
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span id="resultsCount" style="font-size: 0.82rem; color: var(--slate-500);"></span>
+        <a class="btn btn-primary" href="/admin/employee-form.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Issue New ID Card
+        </a>
+      </div>
+    </div>
+
+    <!-- Roster Table Container -->
+    <div class="table-container">
+      <table class="roster">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Employee ID</th>
+            <th>Status</th>
+            <th style="text-align: right;">Card Actions</th>
+          </tr>
+        </thead>
+        <tbody id="rosterBody">
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 36px; color: var(--slate-400);">
+              Loading employee directory…
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="toast" class="toast-msg"></div>
+
+  <script type="module" src="/admin/dashboard.js"></script>
+</body>
+</html>

@@ -1,12 +1,17 @@
 import {
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 import { auth } from "./firebase-init.js";
 
 export function login(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
+}
+
+export function resetPassword(email) {
+  return sendPasswordResetEmail(auth, email);
 }
 
 export function logout() {

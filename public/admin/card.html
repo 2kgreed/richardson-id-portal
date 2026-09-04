@@ -40,6 +40,22 @@
       color: var(--primary-700);
       word-break: break-all;
     }
+    #qrContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background: #ffffff;
+      border-radius: 4px;
+      border: 1px solid var(--slate-200);
+      overflow: hidden;
+    }
+    #qrContainer canvas, #qrContainer img {
+      width: 66px !important;
+      height: 66px !important;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -75,7 +91,7 @@
             <img src="/assets/logo.svg" alt="" class="badge-logo-img" />
             <span class="badge-org-title">RICHARDSON OIL &amp; GAS</span>
           </div>
-          <span class="badge-sec-tag">OFFICIAL ID</span>
+          <span class="badge-sec-tag" id="badgeStatusTag">OFFICIAL ID</span>
         </div>
 
         <!-- Badge Body -->
@@ -87,12 +103,15 @@
             <div class="badge-emp-name" id="cardName">—</div>
             <div class="badge-emp-role" id="cardRole">—</div>
             <div class="badge-emp-dept" id="cardDept">—</div>
-            <div>
+            <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
               <span class="badge-emp-num-badge" id="cardNumber">ID: —</span>
+            </div>
+            <div style="font-size: 1.8mm; color: #64748b; margin-top: 1mm;" id="cardValidity">
+              EXP: —
             </div>
           </div>
           <div class="badge-qr-column">
-            <canvas id="qrCanvas" width="70" height="70"></canvas>
+            <div id="qrContainer"></div>
             <span class="badge-qr-caption">Scan to Verify</span>
           </div>
         </div>
@@ -100,25 +119,29 @@
         <!-- Badge Footer -->
         <div class="badge-footer-bar">
           <span>SECURE ISSUED CREDENTIAL</span>
-          <span class="auth">AUTH · ROG-NG</span>
+          <span class="auth" id="badgeRefTag">AUTH · ROG-NG</span>
         </div>
       </div>
     </div>
 
     <!-- Action Buttons -->
     <div class="badge-actions-bar">
-      <button class="btn btn-primary" id="printBtn">
+      <button class="btn btn-primary" id="printBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
         Print Official Badge
       </button>
-      <button class="btn btn-quiet" id="downloadQrBtn">
+      <button class="btn btn-quiet" id="downloadQrBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Download QR Code (PNG)
       </button>
-      <button class="btn btn-quiet" id="copyUrlBtn">
+      <button class="btn btn-quiet" id="copyUrlBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         Copy Verification URL
       </button>
+      <a class="btn btn-quiet" id="editBtn" href="#">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        Edit Information / Photo
+      </a>
     </div>
 
     <!-- Verification URL Box -->
@@ -138,7 +161,8 @@
 
   <div id="toast" class="toast-msg"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- Local QR library: zero CDN dependency -->
+  <script src="/js/qrcode.min.js"></script>
   <script type="module" src="/admin/card.js"></script>
 </body>
 </html>

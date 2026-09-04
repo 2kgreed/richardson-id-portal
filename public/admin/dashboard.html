@@ -6,6 +6,20 @@
   <title>Personnel ID Management — Richardson Oil and Gas</title>
   <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
   <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-top: 1px solid var(--slate-200);
+      background: #ffffff;
+    }
+    .pagination-btn-group {
+      display: flex;
+      gap: 8px;
+    }
+  </style>
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -19,7 +33,7 @@
     </div>
     <div style="display: flex; align-items: center; gap: 12px;">
       <span id="adminEmailBadge" style="font-size: 0.8rem; color: var(--slate-500); display: none;"></span>
-      <button class="btn btn-quiet btn-sm" id="logoutBtn">
+      <button class="btn btn-quiet btn-sm" id="logoutBtn" type="button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
         Sign out
       </button>
@@ -49,8 +63,12 @@
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <input type="search" id="searchBox" placeholder="Search by name, ID number, or department…" />
       </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <span id="resultsCount" style="font-size: 0.82rem; color: var(--slate-500);"></span>
+        <button class="btn btn-quiet" id="exportCsvBtn" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Export CSV
+        </button>
         <a class="btn btn-primary" href="/admin/employee-form.html">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           Issue New ID Card
@@ -78,6 +96,15 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- Pagination Footer -->
+      <div class="pagination-bar" id="paginationBar" style="display: none;">
+        <span id="paginationInfo" style="font-size: 0.82rem; color: var(--slate-500);">Showing 1-10 of 20</span>
+        <div class="pagination-btn-group">
+          <button class="btn btn-quiet btn-sm" id="prevPageBtn" disabled>Previous</button>
+          <button class="btn btn-quiet btn-sm" id="nextPageBtn" disabled>Next</button>
+        </div>
+      </div>
     </div>
   </main>
 

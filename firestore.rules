@@ -11,14 +11,10 @@ service cloud.firestore {
       return data.keys().hasOnly([
         'firstName', 'lastName', 'jobTitle', 'department',
         'employeeNumber', 'photoUrl', 'status', 'issuedAt',
-        'updatedAt', 'createdBy'
+        'updatedAt', 'createdBy', 'issueDate', 'expiryDate'
       ])
       && data.firstName is string && data.firstName.size() > 0 && data.firstName.size() < 100
       && data.lastName is string && data.lastName.size() > 0 && data.lastName.size() < 100
-      && data.jobTitle is string && data.jobTitle.size() < 150
-      && data.department is string && data.department.size() < 150
-      && data.employeeNumber is string && data.employeeNumber.size() < 50
-      && data.photoUrl is string
       && data.status in ['active', 'revoked'];
     }
 
@@ -31,12 +27,16 @@ service cloud.firestore {
       // Only admins can enumerate the collection (dashboard use only).
       allow list: if isAdmin();
 
-      // Only admins can create, edit, or revoke a card. Field shape is
-      // validated here too — never trust the client to only send safe
-      // fields, since Firestore has no server-side app code enforcing it.
+      // Only admins can create, edit, or revoke a card.
       allow create: if isAdmin() && isValidEmployee(request.resource.data);
       allow update: if isAdmin() && isValidEmployee(request.resource.data);
       allow delete: if isAdmin();
+    }
+
+    // Immutable audit log collection
+    match /audit_logs/{logId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
     }
 
     // Deny everything else by default.

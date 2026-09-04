@@ -6,6 +6,17 @@
   <title>Identity Credential Verification — Richardson Oil and Gas</title>
   <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
   <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .check-status-badge.expired {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    .check-status-badge.expired .status-pulse-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 10px #f59e0b;
+    }
+  </style>
 </head>
 <body class="check-body">
   <div class="check-card">
@@ -48,6 +59,14 @@
         <div class="check-field-group">
           <span class="check-label">Employee ID</span>
           <span class="check-val mono" id="employeeNumber">—</span>
+        </div>
+        <div class="check-field-group">
+          <span class="check-label">Valid From</span>
+          <span class="check-val mono" id="issueDate">—</span>
+        </div>
+        <div class="check-field-group">
+          <span class="check-label">Expires On</span>
+          <span class="check-val mono" id="expiryDate">—</span>
         </div>
         <div class="check-field-group full-width">
           <span class="check-label">Verification Timestamp</span>

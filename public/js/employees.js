@@ -2,69 +2,37 @@ import {
   collection, doc, getDoc, getDocs, addDoc, updateDoc,
   serverTimestamp, query, orderBy
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
-import {
-  ref, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
-import { db, storage, auth } from "./firebase-init.js";
+import { db, auth } from "./firebase-init.js";
 
 const employeesCol = collection(db, "employees");
+const auditCol = collection(db, "audit_logs");
 
-// Public, single-record fetch — this is what the /check page calls.
-// Allowed by firestore.rules for anyone, since it requires knowing the
-// exact document ID from the card's QR code.
+// Public, single-record fetch for /check/<id>
 export async function getEmployee(id) {
   const snap = await getDoc(doc(db, "employees", id));
   return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
-// Admin-only: lists every record for the dashboard. Blocked by
-// firestore.rules for anyone without the admin claim.
+// Admin-only listing
 export async function listEmployees() {
   const snap = await getDocs(query(employeesCol, orderBy("lastName")));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
-export async function createEmployee(fields, photoFile) {
-  const payload = {
-    ...fields,
-    status: fields.status || "active",
-    photoUrl: "",
-    issuedAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-    createdBy: auth.currentUser ? auth.currentUser.uid : "unknown"
-  };
-  const created = await addDoc(employeesCol, payload);
-
-  if (photoFile) {
-    const url = await uploadEmployeePhoto(created.id, photoFile);
-    await updateDoc(doc(db, "employees", created.id), { photoUrl: url });
-  }
-  return created.id;
-}
-
-export async function updateEmployee(id, fields, photoFile) {
-  const payload = { ...fields, updatedAt: serverTimestamp() };
-  if (photoFile) {
-    payload.photoUrl = await uploadEmployeePhoto(id, photoFile);
-  }
-  await updateDoc(doc(db, "employees", id), payload);
-}
-
-export async function setEmployeeStatus(id, status) {
-  await updateDoc(doc(db, "employees", id), { status, updatedAt: serverTimestamp() });
-}
-
-function fileToDataUrl(file, maxWidth = 500, quality = 0.85) {
+// Convert and compress an image file to a lightweight, web-safe 450x450 JPEG data URL
+export function fileToDataUrl(file, maxWidth = 450, quality = 0.85) {
   return new Promise((resolve, reject) => {
+    if (!file) return resolve("");
     const reader = new FileReader();
-    reader.onerror = reject;
+    reader.onerror = () => reject(new Error("Failed to read image file."));
     reader.onload = (e) => {
       const img = new Image();
-      img.onerror = reject;
+      img.onerror = () => reject(new Error("Invalid image format."));
       img.onload = () => {
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
+
         if (width > maxWidth || height > maxWidth) {
           if (width > height) {
             height = Math.round((height * maxWidth) / width);
@@ -74,9 +42,12 @@ function fileToDataUrl(file, maxWidth = 500, quality = 0.85) {
             height = maxWidth;
           }
         }
+
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
         resolve(canvas.toDataURL("image/jpeg", quality));
       };
@@ -86,18 +57,75 @@ function fileToDataUrl(file, maxWidth = 500, quality = 0.85) {
   });
 }
 
-async function uploadEmployeePhoto(employeeId, file) {
-  if (file.size > 5 * 1024 * 1024) {
-    throw new Error("Photo must be under 5MB.");
-  }
+// Audit logger
+async function logAudit(action, targetId, details = {}) {
   try {
-    const photoRef = ref(storage, `employee-photos/${employeeId}`);
-    await uploadBytes(photoRef, file, { contentType: file.type });
-    return await getDownloadURL(photoRef);
-  } catch (storageErr) {
-    console.warn("Using optimized inline photo storage fallback:", storageErr);
-    return await fileToDataUrl(file);
+    await addDoc(auditCol, {
+      action,
+      targetId,
+      actorUid: auth.currentUser ? auth.currentUser.uid : "unknown",
+      actorEmail: auth.currentUser ? auth.currentUser.email : "unknown",
+      details,
+      timestamp: serverTimestamp()
+    });
+  } catch (err) {
+    console.warn("Audit log notice:", err);
   }
+}
+
+// Single-step atomic creation
+export async function createEmployee(fields, photoFile) {
+  let photoUrl = "";
+  if (photoFile) {
+    photoUrl = await fileToDataUrl(photoFile);
+  }
+
+  const payload = {
+    firstName: fields.firstName || "",
+    lastName: fields.lastName || "",
+    jobTitle: fields.jobTitle || "",
+    department: fields.department || "",
+    employeeNumber: fields.employeeNumber || "",
+    issueDate: fields.issueDate || new Date().toISOString().split("T")[0],
+    expiryDate: fields.expiryDate || "",
+    status: fields.status || "active",
+    photoUrl: photoUrl,
+    issuedAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    createdBy: auth.currentUser ? auth.currentUser.uid : "unknown"
+  };
+
+  const created = await addDoc(employeesCol, payload);
+  await logAudit("ISSUE_CREDENTIAL", created.id, {
+    name: `${payload.firstName} ${payload.lastName}`,
+    employeeNumber: payload.employeeNumber
+  });
+
+  return created.id;
+}
+
+// Single-step atomic update
+export async function updateEmployee(id, fields, photoFile) {
+  const payload = {
+    ...fields,
+    updatedAt: serverTimestamp()
+  };
+
+  if (photoFile) {
+    payload.photoUrl = await fileToDataUrl(photoFile);
+  }
+
+  await updateDoc(doc(db, "employees", id), payload);
+  await logAudit("UPDATE_CREDENTIAL", id, { fields: Object.keys(fields) });
+}
+
+// Status toggle with audit
+export async function setEmployeeStatus(id, status) {
+  await updateDoc(doc(db, "employees", id), {
+    status,
+    updatedAt: serverTimestamp()
+  });
+  await logAudit(status === "revoked" ? "REVOKE_CREDENTIAL" : "REACTIVATE_CREDENTIAL", id, { status });
 }
 
 export function checkUrlFor(employeeId) {

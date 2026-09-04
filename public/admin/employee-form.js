@@ -11,15 +11,26 @@ const errEl = document.getElementById("err");
 const saveBtn = document.getElementById("saveBtn");
 const photoInput = document.getElementById("photo");
 const previewBox = document.getElementById("previewBox");
-const fields = ["firstName", "lastName", "jobTitle", "department", "employeeNumber"];
+const issueDateInput = document.getElementById("issueDate");
+const expiryDateInput = document.getElementById("expiryDate");
 
-// Photo preview on file select
+// Set default dates
+const today = new Date();
+const todayIso = today.toISOString().split("T")[0];
+const twoYears = new Date();
+twoYears.setFullYear(twoYears.getFullYear() + 2);
+const twoYearsIso = twoYears.toISOString().split("T")[0];
+
+if (issueDateInput && !issueDateInput.value) issueDateInput.value = todayIso;
+if (expiryDateInput && !expiryDateInput.value) expiryDateInput.value = twoYearsIso;
+
+// Instant photo preview
 photoInput.addEventListener("change", () => {
   const file = photoInput.files[0];
   if (!file) return;
 
-  if (file.size > 5 * 1024 * 1024) {
-    errEl.textContent = "Photo must be less than 5MB in size.";
+  if (file.size > 8 * 1024 * 1024) {
+    errEl.textContent = "Photo file is too large. Please select an image under 8MB.";
     photoInput.value = "";
     return;
   }
@@ -27,10 +38,12 @@ photoInput.addEventListener("change", () => {
 
   const reader = new FileReader();
   reader.onload = (e) => {
-    previewBox.innerHTML = `<img src="${e.target.result}" alt="Preview" />`;
+    previewBox.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;" />`;
   };
   reader.readAsDataURL(file);
 });
+
+const fields = ["firstName", "lastName", "jobTitle", "department", "employeeNumber", "issueDate", "expiryDate"];
 
 if (editId) {
   document.getElementById("formTitle").textContent = "Edit Employee Credential";
@@ -38,12 +51,12 @@ if (editId) {
     const existing = await getEmployee(editId);
     if (existing) {
       for (const f of fields) {
-        if (document.getElementById(f)) {
-          document.getElementById(f).value = existing[f] || "";
+        if (document.getElementById(f) && existing[f]) {
+          document.getElementById(f).value = existing[f];
         }
       }
       if (existing.photoUrl) {
-        previewBox.innerHTML = `<img src="${existing.photoUrl}" alt="${existing.firstName}" />`;
+        previewBox.innerHTML = `<img src="${existing.photoUrl}" alt="${existing.firstName}" style="width: 100%; height: 100%; object-fit: cover;" />`;
       }
     }
   } catch (err) {
@@ -58,7 +71,7 @@ form.addEventListener("submit", async (e) => {
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
   if (!firstName || !lastName) {
-    errEl.textContent = "Both first and last name are required.";
+    errEl.textContent = "First name and last name are required.";
     return;
   }
 
@@ -67,12 +80,15 @@ form.addEventListener("submit", async (e) => {
     lastName,
     jobTitle: document.getElementById("jobTitle").value.trim(),
     department: document.getElementById("department").value.trim(),
-    employeeNumber: document.getElementById("employeeNumber").value.trim()
+    employeeNumber: document.getElementById("employeeNumber").value.trim(),
+    issueDate: issueDateInput ? issueDateInput.value : todayIso,
+    expiryDate: expiryDateInput ? expiryDateInput.value : twoYearsIso
   };
+
   const photoFile = photoInput.files[0] || null;
 
   saveBtn.disabled = true;
-  saveBtn.textContent = "Saving to directory…";
+  saveBtn.textContent = "Processing & Saving…";
 
   try {
     let id = editId;
@@ -84,7 +100,7 @@ form.addEventListener("submit", async (e) => {
     window.location.href = `/admin/card.html?id=${encodeURIComponent(id)}`;
   } catch (error) {
     console.error("Save error:", error);
-    errEl.textContent = error.message || "Couldn't save record. Check photo file size and connectivity.";
+    errEl.textContent = error.message || "Could not save employee record. Please try again.";
     saveBtn.disabled = false;
     saveBtn.textContent = "Save & Generate Card";
   }

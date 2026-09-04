@@ -46,6 +46,13 @@
       color: var(--slate-500);
       text-align: center;
     }
+    .auth-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 0.82rem;
+    }
   </style>
 </head>
 <body>
@@ -62,7 +69,7 @@
           <label for="email">Admin Email Address</label>
           <input type="email" id="email" required autocomplete="username" placeholder="name@richardsonoilandgas.com" />
         </div>
-        <div class="field">
+        <div class="field" id="passwordField">
           <label for="password">Password</label>
           <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••" />
         </div>
@@ -70,6 +77,11 @@
         <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; padding: 12px;">
           Authenticate &amp; Sign In
         </button>
+
+        <div class="auth-links">
+          <a href="#" id="forgotPasswordLink">Forgot password?</a>
+          <span style="color: var(--slate-400);">MFA / Claim Protected</span>
+        </div>
       </form>
 
       <div class="login-sec-note">

@@ -930,24 +930,46 @@ table.roster tr:hover td {
   font-weight: 700;
 }
 
-/* Print Rules */
+/* Print Rules (CR80: 85.6mm x 54mm) */
 @media print {
-  body * {
-    visibility: hidden;
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    width: 85.6mm !important;
+    height: 54mm !important;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  #printArea, #printArea * {
-    visibility: visible;
+  .topbar, .wrap > div:first-child, .badge-actions-bar, .meta-url-box, #toast, header {
+    display: none !important;
+  }
+  .card-preview-shell {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  .wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
   }
   #printArea {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-    border: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 85.6mm !important;
+    height: 54mm !important;
+    margin: 0 !important;
     box-shadow: none !important;
+    border: 0.2mm solid #cbd5e1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   @page {
     size: 85.6mm 54mm;
-    margin: 0;
+    margin: 0mm;
   }
 }

@@ -23,7 +23,7 @@
     </a>
   </header>
 
-  <main class="wrap" style="max-width: 620px;">
+  <main class="wrap" style="max-width: 640px;">
     <div class="card">
       <h1 id="formTitle">Register New Employee</h1>
       <p class="lead">Fill in the employee credentials to issue an official identity card.</p>
@@ -40,24 +40,37 @@
           </div>
         </div>
 
-        <div class="field">
-          <label for="jobTitle">Job Title / Designation</label>
-          <input type="text" id="jobTitle" maxlength="149" placeholder="e.g. Senior Petroleum Geologist" />
-        </div>
-
-        <div class="field">
-          <label for="department">Department / Division</label>
-          <input type="text" id="department" maxlength="149" placeholder="e.g. Exploration &amp; Production" />
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="field">
+            <label for="jobTitle">Job Title / Designation</label>
+            <input type="text" id="jobTitle" maxlength="149" placeholder="e.g. Senior Petroleum Geologist" />
+          </div>
+          <div class="field">
+            <label for="department">Department / Division</label>
+            <input type="text" id="department" maxlength="149" placeholder="e.g. Exploration &amp; Production" />
+          </div>
         </div>
 
         <div class="field">
           <label for="employeeNumber">Employee ID Number</label>
-          <input type="text" id="employeeNumber" maxlength="49" placeholder="e.g. ROG-2026-084" />
+          <input type="text" id="employeeNumber" maxlength="49" placeholder="e.g. ROG-105" />
           <div class="field-hint">Unique corporate ID code displayed on physical card.</div>
         </div>
 
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="field">
+            <label for="issueDate">Issue Date</label>
+            <input type="date" id="issueDate" />
+          </div>
+          <div class="field">
+            <label for="expiryDate">Credential Expiry Date</label>
+            <input type="date" id="expiryDate" />
+            <div class="field-hint">Standard validity: 2 years from issue.</div>
+          </div>
+        </div>
+
         <div class="field">
-          <label for="photo">Personnel Passport Photo</label>
+          <label for="photo">Personnel Passport Photo *</label>
           <div class="photo-upload-container">
             <div class="photo-preview-box" id="previewBox">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -66,8 +79,8 @@
               </svg>
             </div>
             <div style="flex: 1;">
-              <input type="file" id="photo" accept="image/png, image/jpeg" />
-              <div class="field-hint">PNG or JPG, maximum 5MB. Clear face portrait recommended.</div>
+              <input type="file" id="photo" accept="image/png, image/jpeg, image/webp" />
+              <div class="field-hint">Select a passport or portrait photo. It will be optimized automatically.</div>
             </div>
           </div>
         </div>

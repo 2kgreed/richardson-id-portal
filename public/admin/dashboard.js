@@ -1,5 +1,5 @@
 import { requireAdmin, logout } from "../js/auth.js";
-import { listEmployees, setEmployeeStatus } from "../js/employees.js";
+import { listEmployees, setEmployeeStatus, checkUrlFor } from "../js/employees.js";
 
 const user = await requireAdmin();
 
@@ -10,6 +10,11 @@ const metricActive = document.getElementById("metricActive");
 const metricRevoked = document.getElementById("metricRevoked");
 const resultsCount = document.getElementById("resultsCount");
 const adminEmailBadge = document.getElementById("adminEmailBadge");
+const exportCsvBtn = document.getElementById("exportCsvBtn");
+const paginationBar = document.getElementById("paginationBar");
+const paginationInfo = document.getElementById("paginationInfo");
+const prevPageBtn = document.getElementById("prevPageBtn");
+const nextPageBtn = document.getElementById("nextPageBtn");
 
 if (user && user.email) {
   adminEmailBadge.textContent = user.email;
@@ -22,14 +27,18 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 });
 
 let allEmployees = [];
+let filteredEmployees = [];
+let currentPage = 1;
+const pageSize = 10;
 
 async function load() {
   try {
     allEmployees = await listEmployees();
     updateMetrics(allEmployees);
-    render(allEmployees);
+    applyFilter();
   } catch (err) {
-    rosterBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger-accent); padding: 32px;">Failed to load employee directory. Please check network and permissions.</td></tr>`;
+    console.error("Dashboard error:", err);
+    rosterBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger-accent); padding: 32px;">Failed to load employee directory. Please check network.</td></tr>`;
   }
 }
 
@@ -43,14 +52,30 @@ function updateMetrics(list) {
   metricRevoked.textContent = revoked;
 }
 
-function render(list) {
+function applyFilter() {
+  const q = searchBox.value.trim().toLowerCase();
+  if (!q) {
+    filteredEmployees = [...allEmployees];
+  } else {
+    filteredEmployees = allEmployees.filter((e) =>
+      [e.firstName, e.lastName, e.department, e.employeeNumber, e.jobTitle]
+        .filter(Boolean)
+        .some((v) => v.toLowerCase().includes(q))
+    );
+  }
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
   rosterBody.replaceChildren();
 
   if (resultsCount) {
-    resultsCount.textContent = `${list.length} ${list.length === 1 ? "record" : "records"}`;
+    resultsCount.textContent = `${filteredEmployees.length} ${filteredEmployees.length === 1 ? "record" : "records"}`;
   }
 
-  if (list.length === 0) {
+  if (filteredEmployees.length === 0) {
+    paginationBar.style.display = "none";
     const tr = document.createElement("tr");
     const td = document.createElement("td");
     td.colSpan = 5;
@@ -58,9 +83,9 @@ function render(list) {
     td.style.padding = "48px 24px";
     td.innerHTML = `
       <div style="max-width: 320px; margin: 0 auto; color: var(--slate-500);">
-        <p style="font-weight: 600; font-size: 1rem; color: var(--slate-700); margin-bottom: 6px;">No employees found</p>
-        <p style="font-size: 0.85rem; margin: 0 0 16px;">Issue an official ID card to register an employee into the security directory.</p>
-        <a class="btn btn-primary btn-sm" href="/admin/employee-form.html">Add First Employee</a>
+        <p style="font-weight: 600; font-size: 1rem; color: var(--slate-700); margin-bottom: 6px;">No records found</p>
+        <p style="font-size: 0.85rem; margin: 0 0 16px;">Issue a card to register an employee into the security directory.</p>
+        <a class="btn btn-primary btn-sm" href="/admin/employee-form.html">Issue First ID Card</a>
       </div>
     `;
     tr.appendChild(td);
@@ -68,10 +93,24 @@ function render(list) {
     return;
   }
 
-  for (const emp of list) {
+  const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+  if (totalPages > 1) {
+    paginationBar.style.display = "flex";
+    const startIdx = (currentPage - 1) * pageSize + 1;
+    const endIdx = Math.min(currentPage * pageSize, filteredEmployees.length);
+    paginationInfo.textContent = `Showing ${startIdx}-${endIdx} of ${filteredEmployees.length}`;
+    prevPageBtn.disabled = currentPage <= 1;
+    nextPageBtn.disabled = currentPage >= totalPages;
+  } else {
+    paginationBar.style.display = "none";
+  }
+
+  const slice = filteredEmployees.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
+  for (const emp of slice) {
     const tr = document.createElement("tr");
 
-    // Employee column with avatar & title
+    // Employee column with avatar
     const empTd = document.createElement("td");
     const empCell = document.createElement("div");
     empCell.className = "emp-cell";
@@ -164,16 +203,52 @@ function render(list) {
   }
 }
 
-searchBox.addEventListener("input", () => {
-  const q = searchBox.value.trim().toLowerCase();
-  if (!q) return render(allEmployees);
-  render(
-    allEmployees.filter((e) =>
-      [e.firstName, e.lastName, e.department, e.employeeNumber, e.jobTitle]
-        .filter(Boolean)
-        .some((v) => v.toLowerCase().includes(q))
-    )
-  );
+// Pagination Event Handlers
+prevPageBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderPage();
+  }
+});
+
+nextPageBtn.addEventListener("click", () => {
+  const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderPage();
+  }
+});
+
+searchBox.addEventListener("input", applyFilter);
+
+// Export CSV Feature
+exportCsvBtn.addEventListener("click", () => {
+  if (allEmployees.length === 0) {
+    alert("No records to export.");
+    return;
+  }
+
+  const headers = ["Employee ID", "First Name", "Last Name", "Job Title", "Department", "Status", "Issue Date", "Expiry Date", "Check URL"];
+  const rows = allEmployees.map((e) => [
+    `"${(e.employeeNumber || "").replace(/"/g, '""')}"`,
+    `"${(e.firstName || "").replace(/"/g, '""')}"`,
+    `"${(e.lastName || "").replace(/"/g, '""')}"`,
+    `"${(e.jobTitle || "").replace(/"/g, '""')}"`,
+    `"${(e.department || "").replace(/"/g, '""')}"`,
+    `"${e.status || "active"}"`,
+    `"${e.issueDate || ""}"`,
+    `"${e.expiryDate || ""}"`,
+    `"${checkUrlFor(e.id)}"`
+  ]);
+
+  const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `ROG-ID-Roster-${new Date().toISOString().split("T")[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 });
 
 load();

@@ -40,18 +40,26 @@ async function run() {
   }
 
   const isRevoked = emp.status === "revoked";
+  const isExpired = emp.expiryDate && new Date(emp.expiryDate) < new Date();
+
   if (isRevoked) {
     statusBar.className = "check-status-badge revoked";
     statusText.textContent = "CREDENTIAL REVOKED · ACCESS DENIED";
+  } else if (isExpired) {
+    statusBar.className = "check-status-badge expired";
+    statusText.textContent = "CREDENTIAL EXPIRED · RENEWAL REQUIRED";
   } else {
     statusBar.className = "check-status-badge valid";
     statusText.textContent = "OFFICIAL CREDENTIAL VERIFIED · ACTIVE";
   }
 
-  document.getElementById("name").textContent = `${emp.firstName} ${emp.lastName}`;
+  document.getElementById("name").textContent = `${emp.firstName} ${emp.lastName}`.trim();
   document.getElementById("title").textContent = emp.jobTitle || "Personnel";
-  document.getElementById("department").textContent = emp.department || "General Operations";
-  document.getElementById("employeeNumber").textContent = emp.employeeNumber || `ROG-ID-${id.slice(0, 8).toUpperCase()}`;
+  document.getElementById("department").textContent = emp.department || "Operations";
+  document.getElementById("employeeNumber").textContent = emp.employeeNumber || `ROG-${id.slice(0, 8).toUpperCase()}`;
+
+  document.getElementById("issueDate").textContent = emp.issueDate || "—";
+  document.getElementById("expiryDate").textContent = emp.expiryDate || "Indefinite";
 
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });

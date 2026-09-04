@@ -31,12 +31,26 @@ export function requireAdmin() {
         window.location.href = "/admin/login.html";
         return;
       }
-      const token = await user.getIdTokenResult(true);
-      if (token.claims.admin !== true) {
+      try {
+        // Fast-path: use cached token from IndexedDB (0ms network latency)
+        let token = await user.getIdTokenResult(false);
+        if (token.claims.admin === true) {
+          resolve(user);
+          return;
+        }
+
+        // Fallback: force refresh only if admin claim is absent
+        token = await user.getIdTokenResult(true);
+        if (token.claims.admin === true) {
+          resolve(user);
+          return;
+        }
+
         window.location.href = "/admin/login.html?err=not-admin";
-        return;
+      } catch (err) {
+        console.error("Auth verification error:", err);
+        window.location.href = "/admin/login.html";
       }
-      resolve(user);
     });
   });
 }

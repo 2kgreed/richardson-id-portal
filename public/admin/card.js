@@ -9,9 +9,6 @@ if (printBtn) {
   });
 }
 
-// 2. Authentication check
-await requireAdmin();
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -29,7 +26,11 @@ if (!id) {
   document.getElementById("empName").textContent = "No employee record specified.";
 } else {
   try {
-    const emp = await getEmployee(id);
+    // Parallelize authentication check and Firestore fetch for fastest load
+    const [_, emp] = await Promise.all([
+      requireAdmin(),
+      getEmployee(id)
+    ]);
     if (!emp) {
       document.getElementById("empName").textContent = "Employee record not found.";
     } else {

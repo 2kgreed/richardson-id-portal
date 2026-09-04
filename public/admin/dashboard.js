@@ -1,8 +1,6 @@
 import { requireAdmin, logout } from "../js/auth.js";
 import { listEmployees, setEmployeeStatus, checkUrlFor } from "../js/employees.js";
 
-const user = await requireAdmin();
-
 const rosterBody = document.getElementById("rosterBody");
 const searchBox = document.getElementById("searchBox");
 const metricTotal = document.getElementById("metricTotal");
@@ -16,29 +14,37 @@ const paginationInfo = document.getElementById("paginationInfo");
 const prevPageBtn = document.getElementById("prevPageBtn");
 const nextPageBtn = document.getElementById("nextPageBtn");
 
-if (user && user.email) {
-  adminEmailBadge.textContent = user.email;
-  adminEmailBadge.style.display = "inline";
-}
+let allEmployees = [];
+let filteredEmployees = [];
+let currentPage = 1;
+const pageSize = 10;
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await logout();
   window.location.href = "/admin/login.html";
 });
 
-let allEmployees = [];
-let filteredEmployees = [];
-let currentPage = 1;
-const pageSize = 10;
-
-async function load() {
+async function init() {
   try {
-    allEmployees = await listEmployees();
+    // Concurrent auth verification and roster retrieval
+    const [user, employees] = await Promise.all([
+      requireAdmin(),
+      listEmployees()
+    ]);
+
+    if (user && user.email && adminEmailBadge) {
+      adminEmailBadge.textContent = user.email;
+      adminEmailBadge.style.display = "inline";
+    }
+
+    allEmployees = employees;
     updateMetrics(allEmployees);
     applyFilter();
   } catch (err) {
-    console.error("Dashboard error:", err);
-    rosterBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger-accent); padding: 32px;">Failed to load employee directory. Please check network.</td></tr>`;
+    console.error("Dashboard init error:", err);
+    if (rosterBody) {
+      rosterBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger-accent); padding: 32px;">Failed to load employee directory. Please check network.</td></tr>`;
+    }
   }
 }
 
@@ -251,4 +257,4 @@ exportCsvBtn.addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
-load();
+init();

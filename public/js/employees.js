@@ -19,8 +19,8 @@ export async function listEmployees() {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
-// Convert and compress an image file to a lightweight, web-safe 450x450 JPEG data URL
-export function fileToDataUrl(file, maxWidth = 450, quality = 0.85) {
+// Convert and compress an image file to a lightweight, web-safe 360x360 JPEG data URL (~20KB)
+export function fileToDataUrl(file, maxWidth = 360, quality = 0.80) {
   return new Promise((resolve, reject) => {
     if (!file) return resolve("");
     const reader = new FileReader();

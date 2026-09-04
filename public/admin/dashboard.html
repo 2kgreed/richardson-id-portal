@@ -4,8 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Personnel ID Management — Richardson Oil and Gas</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" type="image/png" href="/assets/richardson-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css?v=4" />
   <style>
     .pagination-bar {
       display: flex;
@@ -22,14 +25,22 @@
   </style>
 </head>
 <body>
+  <!-- Corporate Quick Contact Header -->
+  <div class="corporate-header-banner">
+    <div class="corporate-header-links">
+      <span>📞 +234 803 222 0279, +234 908 859 0341</span>
+      <span>✉ <a href="mailto:info@richardson-oilandgas.com">info@richardson-oilandgas.com</a></span>
+    </div>
+    <div>
+      <a href="https://www.richardsonoilandgas.com" target="_blank" rel="noopener">richardsonoilandgas.com ↗</a>
+    </div>
+  </div>
+
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="brand-wrapper">
-      <img src="/assets/logo.svg" alt="Richardson Oil and Gas" class="brand-logo-img" />
-      <div class="brand-info">
-        <span class="brand-name">Richardson Oil &amp; Gas</span>
-        <span class="brand-tag">Corporate ID Portal</span>
-      </div>
+      <img src="/assets/richardson-logo.png" alt="Richardson Oil and Gas" class="brand-logo-img" />
+      <span class="brand-tag">ID System</span>
     </div>
     <div style="display: flex; align-items: center; gap: 12px;">
       <span id="adminEmailBadge" style="font-size: 0.8rem; color: var(--slate-500); display: none;"></span>

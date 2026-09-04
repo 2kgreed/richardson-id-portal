@@ -4,11 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Portal Sign In — Richardson Oil and Gas</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" type="image/png" href="/assets/richardson-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css?v=4" />
   <style>
     body {
-      background: radial-gradient(circle at 50% 20%, #152243 0%, #080d1a 100%);
+      background: radial-gradient(circle at 50% 20%, #0c1e4a 0%, #07132c 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -16,27 +19,30 @@
     }
     .login-container {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       padding: 24px;
     }
     .login-card {
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-      padding: 36px 32px;
+      padding: 38px 34px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 4px solid var(--richardson-red);
     }
     .login-brand-header {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
     .login-brand-logo {
-      width: 52px;
       height: 52px;
-      margin-bottom: 12px;
+      width: auto;
+      max-width: 220px;
+      object-fit: contain;
+      margin-bottom: 14px;
     }
     .login-sec-note {
       margin-top: 24px;
@@ -59,9 +65,8 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-brand-header">
-        <img src="/assets/logo.svg" alt="Richardson Oil and Gas" class="login-brand-logo" />
-        <h1 style="font-size: 1.45rem; margin-bottom: 4px;">Richardson Oil &amp; Gas</h1>
-        <p class="lead" style="font-size: 0.88rem; margin: 0;">Employee ID Card Management Portal</p>
+        <img src="/assets/richardson-logo.png" alt="Richardson Oil and Gas" class="login-brand-logo" />
+        <p class="lead" style="font-size: 0.88rem; margin: 0; color: var(--slate-600); font-weight: 500;">Corporate Identity &amp; Credential Portal</p>
       </div>
 
       <form id="loginForm" novalidate>

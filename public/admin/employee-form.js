@@ -1,8 +1,6 @@
 import { requireAdmin } from "../js/auth.js";
 import { getEmployee, createEmployee, updateEmployee } from "../js/employees.js";
 
-await requireAdmin();
-
 const params = new URLSearchParams(window.location.search);
 const editId = params.get("id");
 
@@ -38,28 +36,31 @@ photoInput.addEventListener("change", () => {
 
   const reader = new FileReader();
   reader.onload = (e) => {
-    previewBox.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;" />`;
+    previewBox.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%;" />`;
   };
   reader.readAsDataURL(file);
 });
 
 const fields = ["firstName", "lastName", "jobTitle", "department", "employeeNumber", "issueDate", "expiryDate"];
 
+// Parallelize authentication check and data fetch
+const [_, existing] = await Promise.all([
+  requireAdmin(),
+  editId ? getEmployee(editId) : Promise.resolve(null)
+]);
+
 if (editId) {
   document.getElementById("formTitle").textContent = "Edit Employee Credential";
-  try {
-    const existing = await getEmployee(editId);
-    if (existing) {
-      for (const f of fields) {
-        if (document.getElementById(f) && existing[f]) {
-          document.getElementById(f).value = existing[f];
-        }
-      }
-      if (existing.photoUrl) {
-        previewBox.innerHTML = `<img src="${existing.photoUrl}" alt="${existing.firstName}" style="width: 100%; height: 100%; object-fit: cover;" />`;
+  if (existing) {
+    for (const f of fields) {
+      if (document.getElementById(f) && existing[f]) {
+        document.getElementById(f).value = existing[f];
       }
     }
-  } catch (err) {
+    if (existing.photoUrl) {
+      previewBox.innerHTML = `<img src="${existing.photoUrl}" alt="${existing.firstName}" style="width: 100%; height: 100%; object-fit: cover; object-position: center 20%;" />`;
+    }
+  } else {
     errEl.textContent = "Failed to load existing record details.";
   }
 }

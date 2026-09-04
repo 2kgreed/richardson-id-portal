@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Badge Preview &amp; Print — Richardson Oil and Gas</title>
   <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css?v=3" />
   <style>
     .card-preview-shell {
       background: var(--slate-100);
@@ -41,20 +41,25 @@
       word-break: break-all;
     }
     #qrContainer {
+      width: 19mm;
+      height: 19mm;
+      background: #ffffff;
+      border-radius: 1.5mm;
+      border: 0.3mm solid #cbd5e1;
+      padding: 0.8mm;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 70px;
-      height: 70px;
-      background: #ffffff;
-      border-radius: 4px;
-      border: 1px solid var(--slate-200);
-      overflow: hidden;
+      box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    #qrContainer canvas, #qrContainer img {
-      width: 66px !important;
-      height: 66px !important;
-      display: block;
+    #qrContainer img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
     }
   </style>
 </head>
@@ -126,7 +131,7 @@
 
     <!-- Action Buttons -->
     <div class="badge-actions-bar">
-      <button class="btn btn-primary" id="printBtn" type="button">
+      <button class="btn btn-primary" id="printBtn" type="button" onclick="window.print()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
         Print Official Badge
       </button>
@@ -136,7 +141,7 @@
       </button>
       <button class="btn btn-quiet" id="copyUrlBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        Copy Verification URL
+        <span id="copyBtnText">Copy Verification URL</span>
       </button>
       <a class="btn btn-quiet" id="editBtn" href="#">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -161,8 +166,8 @@
 
   <div id="toast" class="toast-msg"></div>
 
-  <!-- Local QR library: zero CDN dependency -->
-  <script src="/js/qrcode.min.js"></script>
-  <script type="module" src="/admin/card.js"></script>
+  <!-- Local QR generator: zero CDN dependency, zero overflow crashes -->
+  <script src="/js/qrcode.min.js?v=3"></script>
+  <script type="module" src="/admin/card.js?v=3"></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
-# Richardson Oil and Gas — Corporate ID Card Portal
+# Richardson Oil and Gas (Corporate ID Card Portal)
 
 [![Status](https://img.shields.io/badge/Status-Live%20Production-success)](https://rog-id-test-84920.web.app)
 [![Firebase](https://img.shields.io/badge/Platform-Firebase%20Hosting%20%2B%20Firestore-orange)](https://console.firebase.google.com/project/rog-id-test-84920/overview)
 [![License](https://img.shields.io/badge/License-Proprietary-blue)](https://richardsonoilandgas.com)
 
-Executive-grade corporate identity card and digital verification management portal built for **Richardson Oil and Gas PLC**. Provides secure personnel badge issuance, high-resolution QR verification code generation, standard CR-80 card printing, real-time revocation, and a tamper-evident public checkpoint.
+Executive-grade corporate identity card and digital verification management portal built for **Richardson Oil and Gas Ltd**. Provides secure personnel badge issuance, high-resolution QR verification code generation, standard CR-80 card printing, real-time revocation, and a tamper-evident public checkpoint.
 
 ---
 
-## 🌐 Live Application Deployment
+## Live Application Deployment
 
 - **Production Portal**: [https://rog-id-test-84920.web.app](https://rog-id-test-84920.web.app)
 - **Admin Access Point**: [https://rog-id-test-84920.web.app/admin/login.html](https://rog-id-test-84920.web.app/admin/login.html)
@@ -17,7 +17,7 @@ Executive-grade corporate identity card and digital verification management port
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 1. **Executive Security Dashboard**:
    - Real-time directory metrics: Total Issued Cards, Active Personnel, Revoked Credentials.
@@ -45,7 +45,7 @@ Executive-grade corporate identity card and digital verification management port
 
 ---
 
-## 🔐 Administrative Account Setup
+## Administrative Account Setup
 
 ### Step 1: Create an Admin User in Firebase Auth
 1. Navigate to [Firebase Console → Authentication → Users](https://console.firebase.google.com/project/rog-id-test-84920/authentication/users).
@@ -80,7 +80,7 @@ Navigate to [https://rog-id-test-84920.web.app/admin/login.html](https://rog-id-
 
 ---
 
-## 🛠 Local Development & Deployment
+## Local Development & Deployment
 
 ### Run Locally
 ```bash
@@ -98,7 +98,7 @@ firebase deploy --only firestore:rules,hosting
 
 ---
 
-## 🏷️ Custom Subdomain Setup (Optional)
+## Custom Subdomain Setup (Optional)
 
 To connect `id.richardsonoilandgas.com`:
 1. Go to **Firebase Console → Hosting → Add custom domain**.

@@ -934,13 +934,13 @@ table.roster tr:hover td {
   width: 85.6mm;
   height: 54mm;
   border: 1px solid #cbd5e1;
-  border-radius: 3.5mm;
+  border-radius: 3mm;
   background: #ffffff;
   color: #0f172a;
   font-family: var(--font-sans);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 12px 28px rgba(0, 27, 113, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 25px rgba(0, 27, 113, 0.12), 0 2px 6px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -955,22 +955,22 @@ table.roster tr:hover td {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 90% 10%, rgba(227, 27, 35, 0.03) 0%, transparent 40%),
-              radial-gradient(circle at 10% 90%, rgba(0, 27, 113, 0.04) 0%, transparent 45%);
+  background: radial-gradient(circle at 92% 8%, rgba(227, 27, 35, 0.03) 0%, transparent 40%),
+              radial-gradient(circle at 8% 92%, rgba(0, 27, 113, 0.04) 0%, transparent 45%);
   pointer-events: none;
 }
 
 /* Corporate Top Header on Physical Badge */
 .badge-header {
   background: #ffffff;
-  padding: 1.8mm 3.6mm;
+  padding: 1.8mm 3.5mm;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 0.8mm solid var(--richardson-red);
   position: relative;
   z-index: 2;
-  box-shadow: 0 0.5mm 1mm rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
 }
 
 .badge-header-left {
@@ -981,7 +981,7 @@ table.roster tr:hover td {
 .badge-logo-img {
   height: 7.2mm;
   width: auto;
-  max-width: 42mm;
+  max-width: 44mm;
   object-fit: contain;
   display: block;
 }
@@ -994,39 +994,37 @@ table.roster tr:hover td {
   color: var(--richardson-navy);
   background: #f8fafc;
   border: 0.25mm solid #cbd5e1;
-  padding: 0.5mm 1.8mm;
+  padding: 0.6mm 2mm;
   border-radius: 1mm;
   line-height: 1;
   display: inline-flex;
   align-items: center;
-  gap: 1mm;
-  box-shadow: inset 0 0.2mm 0.4mm rgba(0, 0, 0, 0.04);
 }
 
 .badge-body-content {
-  padding: 2.2mm 3.6mm;
+  padding: 2mm 3.5mm;
   display: grid;
-  grid-template-columns: 26mm 1fr 21mm;
-  gap: 3.2mm;
+  grid-template-columns: 25mm 1fr 20mm;
+  gap: 3.5mm;
   align-items: center;
   flex: 1;
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 .badge-photo-container {
-  width: 26mm;
-  height: 33mm;
-  border-radius: 2mm;
-  border: 0.45mm solid #cbd5e1;
+  width: 25mm;
+  height: 32mm;
+  border-radius: 1.8mm;
+  border: 0.4mm solid #cbd5e1;
   overflow: hidden;
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 4px rgba(0, 27, 113, 0.1);
-  outline: 0.3mm solid #ffffff;
-  outline-offset: -0.8mm;
+  box-shadow: 0 1px 3px rgba(0, 27, 113, 0.08);
+  box-sizing: border-box;
 }
 
 .badge-photo-container img {
@@ -1042,27 +1040,15 @@ table.roster tr:hover td {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 0.5mm;
-}
-
-.badge-bearer-label {
-  font-size: 1.6mm;
-  font-weight: 800;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.8mm;
-  display: flex;
-  align-items: center;
-  gap: 0.8mm;
+  min-width: 0;
 }
 
 .badge-emp-name {
-  font-size: 3.8mm;
+  font-size: 3.6mm;
   font-weight: 800;
   color: var(--richardson-navy);
   line-height: 1.15;
-  margin: 0 0 2.2mm;
+  margin: 0 0 2mm;
   word-break: break-word;
   letter-spacing: -0.01em;
 }
@@ -1070,39 +1056,30 @@ table.roster tr:hover td {
 .badge-id-wrap {
   display: flex;
   align-items: center;
-  margin-bottom: 2mm;
+  margin-bottom: 1.8mm;
 }
 
 .badge-emp-num-badge {
   font-family: var(--font-mono);
-  font-size: 2.4mm;
+  font-size: 2.3mm;
   font-weight: 700;
   color: var(--richardson-navy);
   background: #eff6ff;
   padding: 0.6mm 2mm;
-  border-radius: 1mm;
+  border-radius: 0.8mm;
   display: inline-flex;
   align-items: center;
-  gap: 1.2mm;
   border: 0.25mm solid #93c5fd;
-  box-shadow: 0 0.5mm 1mm rgba(0, 27, 113, 0.05);
+  line-height: 1.2;
 }
 
 .badge-security-note {
   font-size: 1.6mm;
   line-height: 1.2;
   color: #64748b;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 1mm;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.badge-security-note svg {
-  color: var(--richardson-red);
-  flex-shrink: 0;
+  letter-spacing: 0.06em;
 }
 
 .badge-qr-column {
@@ -1116,14 +1093,14 @@ table.roster tr:hover td {
   width: 20mm;
   height: 20mm;
   background: #ffffff;
-  border-radius: 1.5mm;
-  border: 0.35mm solid #cbd5e1;
-  padding: 0.8mm;
+  border-radius: 1.2mm;
+  border: 0.3mm solid #cbd5e1;
+  padding: 0.6mm;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 #qrContainer img,
@@ -1136,31 +1113,15 @@ table.roster tr:hover td {
   image-rendering: crisp-edges;
 }
 
-.badge-qr-labels {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1mm;
-  text-align: center;
-}
-
 .badge-qr-caption {
-  font-size: 1.6mm;
+  font-size: 1.5mm;
   color: var(--richardson-navy);
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.06em;
   line-height: 1.1;
-}
-
-.badge-qr-sub {
-  font-size: 1.35mm;
-  color: var(--richardson-red);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.1;
-  margin-top: 0.3mm;
+  margin-top: 1mm;
+  text-align: center;
 }
 
 /* Badge Footer Ribbon in Corporate Navy */
@@ -1169,7 +1130,7 @@ table.roster tr:hover td {
   border-top: 0.4mm solid var(--richardson-red);
   color: #cbd5e1;
   font-size: 1.5mm;
-  padding: 0.9mm 3.6mm;
+  padding: 0.9mm 3.5mm;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1177,11 +1138,7 @@ table.roster tr:hover td {
   letter-spacing: 0.04em;
   position: relative;
   z-index: 2;
-}
-
-.badge-footer-bar span.auth {
-  color: #ffffff;
-  font-weight: 700;
+  box-sizing: border-box;
 }
 
 .badge-footer-bar span.auth {
@@ -1201,7 +1158,13 @@ table.roster tr:hover td {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  .topbar, .wrap > div:first-child, .badge-actions-bar, .meta-url-box, #toast, header {
+  .topbar,
+  .corporate-header-banner,
+  .wrap > div:first-child,
+  .badge-actions-bar,
+  .meta-url-box,
+  #toast,
+  header {
     display: none !important;
   }
   .card-preview-shell {
@@ -1223,7 +1186,7 @@ table.roster tr:hover td {
     height: 54mm !important;
     margin: 0 !important;
     box-shadow: none !important;
-    border: 0.2mm solid #cbd5e1 !important;
+    border: none !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

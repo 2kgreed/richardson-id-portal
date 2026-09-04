@@ -47,26 +47,32 @@ if (!id) {
       });
 
       document.getElementById("empName").textContent = `${fullName} · Official Badge`;
-      document.getElementById("cardName").textContent = fullName || "—";
-      document.getElementById("cardRole").textContent = emp.jobTitle || "Personnel";
-      document.getElementById("cardDept").textContent = emp.department || "Operations";
-      document.getElementById("cardNumber").textContent = emp.employeeNumber ? `ID: ${emp.employeeNumber}` : `REF: ${emp.id.slice(0, 8).toUpperCase()}`;
+      const cardNameEl = document.getElementById("cardName");
+      if (cardNameEl) cardNameEl.textContent = fullName || "—";
 
-      // Validity & Expiry
-      const validityEl = document.getElementById("cardValidity");
-      if (validityEl) {
-        validityEl.textContent = emp.expiryDate ? `EXP: ${emp.expiryDate}` : "VALID PERSONNEL";
+      const cardNumberText = document.getElementById("cardNumberText");
+      if (cardNumberText) {
+        cardNumberText.textContent = emp.employeeNumber ? `ID: ${emp.employeeNumber}` : `REF: ${emp.id.slice(0, 8).toUpperCase()}`;
+      } else {
+        const cardNumber = document.getElementById("cardNumber");
+        if (cardNumber) {
+          cardNumber.textContent = emp.employeeNumber ? `ID: ${emp.employeeNumber}` : `REF: ${emp.id.slice(0, 8).toUpperCase()}`;
+        }
       }
 
       // Status indicator on badge
       const statusTag = document.getElementById("badgeStatusTag");
       if (statusTag) {
         if (emp.status === "revoked") {
-          statusTag.textContent = "REVOKED";
-          statusTag.style.color = "#f87171";
+          statusTag.innerHTML = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> REVOKED`;
+          statusTag.style.color = "#dc2626";
+          statusTag.style.background = "#fef2f2";
+          statusTag.style.borderColor = "#fecaca";
         } else {
-          statusTag.textContent = "OFFICIAL ID";
-          statusTag.style.color = "#fbbf24";
+          statusTag.innerHTML = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> OFFICIAL ID`;
+          statusTag.style.color = "var(--richardson-navy)";
+          statusTag.style.background = "#f8fafc";
+          statusTag.style.borderColor = "#cbd5e1";
         }
       }
 

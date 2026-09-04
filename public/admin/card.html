@@ -115,35 +115,47 @@
           <div class="badge-header-left">
             <img src="/assets/richardson-logo.png" alt="Richardson Oil &amp; Gas" class="badge-logo-img" />
           </div>
-          <span class="badge-sec-tag" id="badgeStatusTag">OFFICIAL ID</span>
+          <span class="badge-sec-tag" id="badgeStatusTag">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            OFFICIAL ID
+          </span>
         </div>
 
-        <!-- Badge Body -->
+        <!-- Badge Body (Department, Role and Dates removed from card; verified live via QR scan) -->
         <div class="badge-body-content">
           <div class="badge-photo-container">
             <img id="facePhoto" alt="Employee Photo" />
           </div>
           <div class="badge-info-column">
-            <div class="badge-emp-name" id="cardName">—</div>
-            <div class="badge-emp-role" id="cardRole">—</div>
-            <div class="badge-emp-dept" id="cardDept">—</div>
-            <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
-              <span class="badge-emp-num-badge" id="cardNumber">ID: —</span>
+            <div class="badge-bearer-label">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              OFFICIAL BEARER
             </div>
-            <div style="font-size: 1.8mm; color: #64748b; margin-top: 1mm;" id="cardValidity">
-              EXP: —
+            <div class="badge-emp-name" id="cardName">—</div>
+            <div class="badge-id-wrap">
+              <span class="badge-emp-num-badge" id="cardNumber">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><line x1="15" y1="8" x2="17" y2="8"></line><line x1="15" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="17" y2="16"></line></svg>
+                <span id="cardNumberText">ID: —</span>
+              </span>
+            </div>
+            <div class="badge-security-note">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Authorized Corporate Personnel</span>
             </div>
           </div>
           <div class="badge-qr-column">
             <div id="qrContainer"></div>
-            <span class="badge-qr-caption">Scan to Verify</span>
+            <div class="badge-qr-labels">
+              <span class="badge-qr-caption">SCAN TO VERIFY</span>
+              <span class="badge-qr-sub">ROLE · DEPT · STATUS</span>
+            </div>
           </div>
         </div>
 
         <!-- Badge Footer -->
         <div class="badge-footer-bar">
-          <span>SECURE ISSUED CREDENTIAL</span>
-          <span class="auth" id="badgeRefTag">AUTH · ROG-NG</span>
+          <span>RICHARDSON OIL &amp; GAS · ACCESS CONTROL</span>
+          <span class="auth" id="badgeRefTag">SECURE ID · ROG-NG</span>
         </div>
       </div>
     </div>
